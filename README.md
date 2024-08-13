@@ -3,4 +3,16 @@
 
 # NodeJS PDF Proxy
 
-You don't belong here...
+Production
+
+```shell
+npm install
+npm start
+```
+
+Development
+
+```shell
+npm install
+npm run dev
+```

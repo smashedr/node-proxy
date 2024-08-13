@@ -9,6 +9,11 @@ app.listen(port, () => {
     console.log(`listening on port: ${port}`)
 })
 
+app.get('/status', (req, res) => {
+    const uptime = Math.floor(process.uptime() / 60)
+    res.send(`Uptime: ${uptime} minutes`)
+})
+
 app.get('/', async (req, res) => {
     try {
         // Parse Reqeust
