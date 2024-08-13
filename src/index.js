@@ -1,9 +1,8 @@
 const express = require('express')
 const axios = require('axios')
 
-const port = process.env.PORT || 3000
-
 const app = express()
+const port = process.env.PORT || 3000
 
 app.listen(port, () => {
     console.log(`listening on port: ${port}`)
@@ -17,17 +16,16 @@ app.get('/status', (req, res) => {
 app.get('/', async (req, res) => {
     try {
         // Parse Reqeust
-        console.log('req.query:', req.query)
         const url = req.query.url
-        console.log('url:', url)
+        console.log(`url: ${url}`)
         if (!url) {
-            return res.status(400).send('No "url" in Query String.')
+            return res.status(400).send('Missing "url" in Query String.')
         }
 
         // Parse Response
         const head = await axios.head(url)
         const contentType = head.headers['content-type']
-        console.log('contentType:', contentType)
+        console.log(`contentType: ${contentType}`)
         if (contentType !== 'application/pdf') {
             return res.status(415).send('Unsupported Media Type')
         }
@@ -35,7 +33,7 @@ app.get('/', async (req, res) => {
         const response = await axios.get(url, { responseType: 'stream' })
         response.data.pipe(res)
     } catch (error) {
-        console.warn('error:', error)
+        console.error('error:', error)
         res.status(500).send(error.message)
     }
 })
